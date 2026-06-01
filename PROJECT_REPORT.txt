@@ -1,0 +1,243 @@
+===============================================================================
+BADILI - PROJECT REPORT
+Markdown to PDF Web Application
+===============================================================================
+
+1. EXECUTIVE SUMMARY
+------------------------------------------------------------------------------
+Badili is a production-ready web application that converts Markdown text into
+professionally formatted PDF documents. The name means "change" or "convert"
+in Swahili. The application follows a client-server architecture with a React
+frontend and an Express backend, connected via a RESTful API.
+
+2. ARCHITECTURE DECISIONS
+------------------------------------------------------------------------------
+
+2.1 Frontend-Backend Separation
+Decision: Separate frontend (React SPA) and backend (Express API)
+Rationale: Enables independent scaling, separate deployment, and future
+API consumers (mobile apps, CLI tools, etc.)
+
+2.2 PDF Generation Engine
+Decision: Puppeteer (headless Chrome)
+Rationale: Produces the highest quality PDFs with full CSS support, web fonts,
+and consistent rendering across platforms. Alternatives considered:
+- pdf-lib: Low-level, requires manual layout. Poor for complex documents.
+- jsPDF: Client-side, limited CSS support. Poor formatting quality.
+- Puppeteer: Server-side, full CSS support, pixel-perfect output.
+
+2.3 Markdown Rendering
+Decision: marked library on the backend, react-markdown on the frontend
+Rationale: Backend needs fast, reliable conversion for PDF generation.
+Frontend needs React integration for live preview.
+
+2.4 Theming
+Decision: CSS custom properties with three themes (Light, Dark, Professional)
+Rationale: CSS variables are inherited by Puppeteer's rendering engine and
+allow easy theme switching without JavaScript.
+
+2.5 State Management
+Decision: React local state (useState/useCallback)
+Rationale: Simple application with no complex state sharing. No need for
+Redux, Zustand, or Context API for MVP.
+
+3. TECHNOLOGY CHOICES
+------------------------------------------------------------------------------
+
+3.1 Frontend
+- React 18: Component-based UI, large ecosystem
+- TypeScript: Type safety, better developer experience
+- Vite 5: Fast builds, HMR, optimized production output
+- Tailwind CSS 3: Utility-first, consistent design system
+- react-markdown: React-native markdown rendering
+- remark-gfm: GitHub Flavored Markdown support
+
+3.2 Backend
+- Node.js 24: JavaScript runtime
+- Express 4: Minimal, well-known web framework
+- TypeScript: Type safety
+- Puppeteer 23: Headless Chrome for PDF generation
+- marked 15: Markdown parsing
+- helmet: Security headers
+- express-rate-limit: Rate limiting
+
+3.3 Testing
+- Vitest: Fast, Vite-native test runner
+- Playwright: E2E browser testing
+- @testing-library/react: Component testing
+
+4. FEATURES IMPLEMENTED
+------------------------------------------------------------------------------
+
+4.1 Markdown Editor
+- Line numbers synchronized with scroll
+- Word count, character count, line count
+- Syntax highlighting via Tailwind prose
+- Placeholder for empty state
+
+4.2 Live Preview
+- Real-time rendering with react-markdown
+- Support for all GFM elements:
+  - h1-h6 headings
+  - Bold, italic, strikethrough
+  - Ordered and unordered lists
+  - Tables
+  - Code blocks with syntax labels
+  - Blockquotes with accent border
+  - Links (open in new tab)
+  - Images
+  - Horizontal rules
+  - Inline code
+
+4.3 PDF Conversion
+- Server-side generation with Puppeteer
+- Download as PDF
+- Print PDF directly
+- Configurable options:
+  - Page size: A4, Letter, Legal
+  - Orientation: Portrait, Landscape
+  - Margins: Small (15mm), Medium (25mm), Large (35mm)
+  - Theme: Light, Dark, Professional
+  - Font size: Small (12px), Medium (16px), Large (20px)
+- Keyboard shortcut: Ctrl+Enter
+
+4.4 Landing Page
+- Hero section with CTA
+- Features cards (Live Preview, Fast Conversion, Professional Output, Secure)
+- How It Works section (4 steps)
+- CTA section
+- Responsive design
+
+4.5 User Experience
+- Toast notifications for success/error/info
+- Loading state during conversion
+- Disabled state when empty
+- Empty state placeholder in preview
+- Tip for keyboard shortcut
+
+5. SECURITY MEASURES
+------------------------------------------------------------------------------
+
+5.1 Input Validation
+- All inputs validated on backend
+- Content type, length, and format checks
+- Specific error messages for each validation failure
+
+5.2 XSS Protection
+- HTML injection prevention in markdown rendering
+- Custom renderer escapes all HTML in code blocks
+- Sanitization removes:
+  - <script> tags and their content
+  - Event handler attributes (onclick, onerror, etc.)
+  - javascript: URLs in href/src attributes
+
+5.3 Rate Limiting
+- 20 requests per minute (configurable)
+- Standard rate limit headers
+
+5.4 Security Headers
+- Helmet middleware (CSP, HSTS, etc.)
+- X-Content-Type-Options: nosniff
+- X-Frame-Options: DENY
+- X-XSS-Protection: 1; mode=block
+- Referrer-Policy: strict-origin-when-cross-origin
+- Permissions-Policy: restricted
+
+5.5 File Handling
+- Files are never stored permanently (in-memory processing)
+- PDFs generated and streamed directly to client
+
+6. TESTING RESULTS
+------------------------------------------------------------------------------
+
+6.1 Backend Tests (25 passing)
+- validate.test.ts: 9 tests (input validation, option validation, defaults)
+- marked-renderer.test.ts: 16 tests (headings, bold, italic, strikethrough,
+  blockquotes, lists, code, tables, links, images, horizontal rules,
+  HTML injection prevention, event handler sanitization)
+
+6.2 Frontend Tests (15 passing)
+- MarkdownPreview.test.tsx: 12 tests (headings, bold, italic, inline code,
+  links, blockquotes, lists, code blocks, horizontal rules, tables,
+  empty state, code block rendering)
+- PDFOptions.test.tsx: 3 tests (renders all option groups, onChange handler,
+  disabled state)
+
+6.3 Build Verification
+- Frontend: TypeScript compilation passes with no errors
+- Backend: TypeScript compilation passes with no errors
+- Vite production build: 2.4s, 322KB JS (gzip: 100KB), 46KB CSS (gzip: 7KB)
+
+7. KNOWN LIMITATIONS
+------------------------------------------------------------------------------
+
+7.1 Current
+- Puppeteer requires Chrome/Chromium (~300MB download on first install)
+- Analytics is in-memory only (no persistence across restarts)
+- No user authentication or document history
+- No document collaboration features
+- Single-page application (no server-side rendering)
+- No support for custom fonts in PDF output
+- No image embedding (external URLs only)
+
+7.2 Future Considerations
+- Database integration for analytics persistence
+- Image upload and embedding in PDF
+- Custom font support
+- DOCX, HTML, and TXT export formats
+- User accounts and document history
+- Document templates
+- Batch conversion
+- Webhook integration
+
+8. FUTURE IMPROVEMENTS
+------------------------------------------------------------------------------
+
+8.1 Short-term
+- Add image upload with data URI embedding for PDF
+- Implement document templates
+- Add syntax highlighting in PDF code blocks (Shiki/Prism)
+- Add PDF preview before download
+- Implement i18n support
+
+8.2 Medium-term
+- User accounts with conversion history
+- DOCX export option
+- Cloud storage integration (Google Drive, Dropbox)
+- Custom header/footer in PDF
+- Page numbers and table of contents
+
+8.3 Long-term
+- API key management for programmatic access
+- Webhook notifications for async conversion
+- Team collaboration features
+- Batch conversion API
+- Desktop app (Tauri or Electron)
+- VS Code extension
+
+9. DEPLOYMENT GUIDE
+------------------------------------------------------------------------------
+
+9.1 Frontend (Vercel)
+- Framework preset: Vite
+- Build command: cd frontend && npm run build
+- Output directory: frontend/dist
+- Environment variables: VITE_API_URL
+
+9.2 Backend (Railway)
+- Start command: cd backend && npm start
+- Build command: cd backend && npm run build
+- Environment variables:
+  - PORT
+  - NODE_ENV
+  - CORS_ORIGIN
+  - RATE_LIMIT_WINDOW_MS
+  - RATE_LIMIT_MAX
+
+9.3 Docker (Optional)
+A Dockerfile can be added to containerize the entire application with
+multi-stage builds for frontend static files and backend API server.
+
+===============================================================================
+END OF PROJECT REPORT
+===============================================================================
