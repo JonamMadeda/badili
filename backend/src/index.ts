@@ -11,6 +11,7 @@ import { analyticsRouter } from './routes/analytics';
 dotenv.config();
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = parseInt(process.env.PORT || '3001', 10);
 
 app.use(helmet());
