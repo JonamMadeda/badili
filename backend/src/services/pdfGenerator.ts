@@ -1,4 +1,4 @@
-import puppeteer, { Browser } from 'puppeteer';
+import puppeteer, { Browser } from 'puppeteer-core';
 import { existsSync } from 'fs';
 import { renderMarkdown } from './markedRenderer';
 import { PDFOptions } from '../types';
