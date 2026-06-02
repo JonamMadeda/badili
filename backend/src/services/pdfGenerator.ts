@@ -6,9 +6,15 @@ import { PDFOptions } from '../types';
 let browser: Browser | null = null;
 
 const SYSTEM_CHROME_PATHS = [
+  // Windows
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files\\Chromium\\Application\\chrome.exe',
+  // Linux / Render
+  '/usr/bin/chromium-browser',
+  '/usr/bin/chromium',
+  '/usr/bin/google-chrome',
+  '/usr/bin/google-chrome-stable',
 ];
 
 function findChrome(): string | undefined {
