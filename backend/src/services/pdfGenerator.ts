@@ -1,13 +1,27 @@
 import puppeteer, { Browser } from 'puppeteer';
+import { existsSync } from 'fs';
 import { renderMarkdown } from './markedRenderer';
 import { PDFOptions } from '../types';
 
 let browser: Browser | null = null;
 
+const SYSTEM_CHROME_PATHS = [
+  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+  'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+  'C:\\Program Files\\Chromium\\Application\\chrome.exe',
+];
+
+function findChrome(): string | undefined {
+  const envPath = process.env.PUPPETEER_EXECUTABLE_PATH;
+  if (envPath && existsSync(envPath)) return envPath;
+  return SYSTEM_CHROME_PATHS.find(existsSync);
+}
+
 async function getBrowser(): Promise<Browser> {
   if (!browser) {
     browser = await puppeteer.launch({
       headless: true,
+      executablePath: findChrome(),
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
