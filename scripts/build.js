@@ -7,4 +7,7 @@ if (!isVercel) {
   execSync('npm run build --prefix backend', { stdio: 'inherit', shell: true });
 }
 
+if (isVercel) {
+  execSync('npm install --prefix frontend', { stdio: 'inherit', shell: true });
+}
 execSync('npm run build --prefix frontend', { stdio: 'inherit', shell: true });
