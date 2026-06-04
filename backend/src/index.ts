@@ -15,8 +15,12 @@ app.set('trust proxy', 1);
 const PORT = parseInt(process.env.PORT || '3001', 10);
 
 app.use(helmet());
+const corsOrigin = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map(o => o.trim())
+  : 'http://localhost:5173';
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: corsOrigin,
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));
