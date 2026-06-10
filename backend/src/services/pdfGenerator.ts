@@ -1,7 +1,7 @@
 import puppeteer, { Browser } from 'puppeteer-core';
 import { existsSync } from 'fs';
-import { renderMarkdown } from './markedRenderer.js';
-import { PDFOptions } from '../types.js';
+import { renderMarkdown } from './markedRenderer';
+import { PDFOptions } from '../types';
 
 let browser: Browser | null = null;
 
@@ -209,7 +209,7 @@ ${bodyHTML}
 export async function generatePDF(markdown: string, options: PDFOptions): Promise<Buffer> {
   const page = await (await getBrowser()).newPage();
   try {
-    const html = await renderMarkdown(markdown);
+    const html = renderMarkdown(markdown);
     const wrappedHTML = wrapHTML(html, options);
 
     await page.setContent(wrappedHTML, {

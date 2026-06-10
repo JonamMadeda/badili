@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { AppError } from './errorHandler.js';
-import { PDFOptions } from '../types.js';
+import { AppError } from './errorHandler';
+import { PDFOptions } from '../types';
 
 const VALID_PAGE_SIZES = ['A4', 'Letter', 'Legal'] as const;
 const VALID_ORIENTATIONS = ['portrait', 'landscape'] as const;

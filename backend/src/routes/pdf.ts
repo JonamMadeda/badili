@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { validatePDFRequest } from '../middleware/validate.js';
-import { generatePDF } from '../services/pdfGenerator.js';
-import { AppError } from '../middleware/errorHandler.js';
-import { logEvent } from '../services/analytics.js';
+import { validatePDFRequest } from '../middleware/validate';
+import { generatePDF } from '../services/pdfGenerator';
+import { AppError } from '../middleware/errorHandler';
+import { logEvent } from '../services/analytics';
 
 export const pdfRouter = Router();
 
