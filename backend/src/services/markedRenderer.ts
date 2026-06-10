@@ -23,7 +23,7 @@ async function init() {
   const renderer = new marked.Renderer();
   _renderer = renderer;
 
-  renderer.code = ({ text, lang }: { text: string; lang?: string }) => {
+  renderer.code = ({ text, lang }: any) => {
     const escaped = escapeHTML(text);
     if (lang) {
       return `<pre><code class="language-${escapeHTML(lang)}">${escaped}</code></pre>`;
@@ -31,14 +31,14 @@ async function init() {
     return `<pre><code>${escaped}</code></pre>`;
   };
 
-  renderer.image = ({ href, title, text }: { href?: string; title?: string; text?: string }) => {
+  renderer.image = ({ href, title, text }: any) => {
     const src = href ? escapeHTML(href) : '';
     const alt = text ? escapeHTML(text) : '';
     const titleAttr = title ? ` title="${escapeHTML(title)}"` : '';
     return `<img src="${src}" alt="${alt}"${titleAttr} />`;
   };
 
-  renderer.link = ({ href, title, text }: { href?: string; title?: string; text?: string }) => {
+  renderer.link = ({ href, title, text }: any) => {
     const url = href ? escapeHTML(href) : '';
     const titleAttr = title ? ` title="${escapeHTML(title)}"` : '';
     return `<a href="${url}"${titleAttr} target="_blank" rel="noopener noreferrer">${text}</a>`;
