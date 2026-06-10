@@ -1,7 +1,7 @@
 import puppeteer, { Browser } from 'puppeteer-core';
 import { existsSync } from 'fs';
-import { renderMarkdown } from './markedRenderer';
-import { PDFOptions } from '../types';
+import { renderMarkdown } from './markedRenderer.js';
+import { PDFOptions } from '../types.js';
 
 let browser: Browser | null = null;
 

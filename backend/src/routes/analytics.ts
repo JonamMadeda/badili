@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { logEvent, getEvents, clearEvents } from '../services/analytics';
+import { logEvent, getEvents, clearEvents } from '../services/analytics.js';
 
 export const analyticsRouter = Router();
 

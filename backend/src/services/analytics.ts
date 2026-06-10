@@ -1,4 +1,4 @@
-import { AnalyticsEvent } from '../types';
+import { AnalyticsEvent } from '../types.js';
 
 const events: AnalyticsEvent[] = [];
 const MAX_EVENTS = 10000;

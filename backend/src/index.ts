@@ -2,11 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import { rateLimiter } from './middleware/rateLimiter';
-import { errorHandler } from './middleware/errorHandler';
-import { securityHeaders } from './middleware/securityHeaders';
-import { pdfRouter } from './routes/pdf';
-import { analyticsRouter } from './routes/analytics';
+import { rateLimiter } from './middleware/rateLimiter.js';
+import { errorHandler } from './middleware/errorHandler.js';
+import { securityHeaders } from './middleware/securityHeaders.js';
+import { pdfRouter } from './routes/pdf.js';
+import { analyticsRouter } from './routes/analytics.js';
 
 dotenv.config();
 

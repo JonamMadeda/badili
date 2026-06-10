@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { validatePDFRequest } from '../middleware/validate';
-import { AppError } from '../middleware/errorHandler';
+import { validatePDFRequest } from '../middleware/validate.js';
+import { AppError } from '../middleware/errorHandler.js';
 import { Request, Response } from 'express';
 
 function createMockReq(body: unknown): Partial<Request> {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { renderMarkdown } from '../services/markedRenderer';
+import { renderMarkdown } from '../services/markedRenderer.js';
 
 describe('markedRenderer', () => {
   it('should render headings', async () => {
