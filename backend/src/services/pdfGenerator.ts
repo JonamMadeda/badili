@@ -209,7 +209,7 @@ ${bodyHTML}
 export async function generatePDF(markdown: string, options: PDFOptions): Promise<Buffer> {
   const page = await (await getBrowser()).newPage();
   try {
-    const html = renderMarkdown(markdown);
+    const html = await renderMarkdown(markdown);
     const wrappedHTML = wrapHTML(html, options);
 
     await page.setContent(wrappedHTML, {
